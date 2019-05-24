@@ -11,11 +11,11 @@ set smarttab
 set autoread
 set laststatus=2
 set linebreak
-set completeopt=longest,menuone
+set completeopt=noinsert,menuone,noselect
 filetype indent on
 filetype plugin on
 set wildmenu
-set wildmode=list,full
+set wildmode=longest:full,full
 set ignorecase
 set smartcase
 set title
@@ -33,6 +33,7 @@ endfu
 
 com! WP call WordProcessorMode()
 autocmd FocusGained,CursorHold,BufEnter ?* if getcmdwintype() == '' | checktime | endif
+autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " install vimplug automagically
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -53,14 +54,21 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" Deoplete
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" Autocomplete
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
+" Completion sources
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-bufword'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+" Linting
+Plug 'w0rp/ale'
 
 " Git support
 Plug 'tpope/vim-fugitive'
@@ -74,6 +82,7 @@ Plug 'tpope/vim-rails', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
 " Javascript and JSX support
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'ncm2/ncm2-tern', { 'do': 'yarn install' }
 
 " Nova colorscheme
 Plug 'trevordmiller/nova-vim'
@@ -81,7 +90,7 @@ Plug 'trevordmiller/nova-vim'
 call plug#end()
 
 let g:lightline = {
-            \'colorscheme': 'wombat',
+            \'colorscheme': 'nova',
             \'active' : {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'helloworld' ] ]
