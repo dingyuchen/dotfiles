@@ -14,6 +14,13 @@ set linebreak
 set completeopt=longest,menuone
 filetype indent on
 filetype plugin on
+set wildmenu
+set wildmode=list,full
+set ignorecase
+set smartcase
+set title
+set scrolloff=5
+set hidden
 
 " Spell checker
 " Run with :WP
@@ -95,7 +102,7 @@ let g:nova_transparent = 1
 " Mappings
 " -------------
 "  set new mapleader
-map <SPACE> <leader>
+map , <leader>
 " start nerdtree with Ctrl-n
 map <C-n> :NERDTreeToggle<CR>
 " Ctrl-P to activate fuzzy finder
@@ -107,5 +114,11 @@ map <leader>t :botright terminal<CR>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" shortcut to exit terminal
+tnoremap <C-[> <C-\><C-n>
+
+" Ctrl-w twice to save
+nnoremap <C-w><C-w> :w<CR>
 
 colorscheme nova 
